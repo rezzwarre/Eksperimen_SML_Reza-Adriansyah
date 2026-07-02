@@ -1,0 +1,44 @@
+name: Automated Data Preprocessing
+
+# Workflow ini akan terpicu (trigger) setiap kali:
+# 1. Ada push ke branch main yang mengubah dataset raw atau script preprocessing
+# 2. Dijalankan secara manual lewat tab "Actions" di GitHub (workflow_dispatch)
+on:
+  push:
+    branches: [main]
+    paths:
+      - "namadataset_raw/**"
+      - "preprocessing/automate_RezaAdriansyah.py"
+      - ".github/workflows/preprocessing.yml"
+  workflow_dispatch: {}
+
+jobs:
+  preprocessing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy scikit-learn
+
+      - name: Run automated preprocessing
+        working-directory: preprocessing
+        run: |
+          python automate_RezaAdriansyah.py \
+            --input ../namadataset_raw/extended_flower_morphometrics.csv \
+            --output namadataset_preprocessing/flower_morphometrics_preprocessed.csv
+
+      - name: Commit and push processed dataset
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: update preprocessed dataset [automated]"
+          file_pattern: "preprocessing/namadataset_preprocessing/*.csv"
