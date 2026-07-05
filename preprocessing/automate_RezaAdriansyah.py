@@ -115,13 +115,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input",
         type=str,
-        default=os.path.join("..", "namadataset_raw", "extended_flower_morphometrics.csv"),
+        default=os.path.join("..", "dataset_raw", "extended_flower_morphometrics.csv"),
         help="Path menuju dataset mentah (raw CSV).",
     )
     parser.add_argument(
         "--output",
         type=str,
-        default=os.path.join("namadataset_preprocessing", "flower_morphometrics_preprocessed.csv"),
+        default=os.path.join("dataset_preprocessing", "flower_morphometrics_preprocessed.csv"),
         help="Path untuk menyimpan dataset hasil preprocessing.",
     )
     args = parser.parse_args()

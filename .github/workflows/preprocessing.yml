@@ -7,7 +7,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "namadataset_raw/**"
+      - "dataset_raw/**"
       - "preprocessing/automate_RezaAdriansyah.py"
       - ".github/workflows/preprocessing.yml"
   workflow_dispatch: {}
@@ -39,11 +39,11 @@ jobs:
         working-directory: preprocessing
         run: |
           python automate_RezaAdriansyah.py \
-            --input ../namadataset_raw/extended_flower_morphometrics.csv \
-            --output namadataset_preprocessing/flower_morphometrics_preprocessed.csv
+            --input ../dataset_raw/extended_flower_morphometrics.csv \
+            --output dataset_preprocessing/flower_morphometrics_preprocessed.csv
 
       - name: Commit and push processed dataset
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: update preprocessed dataset [automated]"
-          file_pattern: "preprocessing/namadataset_preprocessing/*.csv"
+          file_pattern: "dataset_preprocessing/*.csv"
